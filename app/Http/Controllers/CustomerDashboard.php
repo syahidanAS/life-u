@@ -57,7 +57,6 @@ class CustomerDashboard extends Controller
         $pin = $request->pin;
         $value = $request->value ? 1 : 0;
 
-
         try {
             // Cek apakah user memiliki device dan token
             if (!$token) {
