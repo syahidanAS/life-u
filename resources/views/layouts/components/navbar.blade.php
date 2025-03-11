@@ -1,7 +1,7 @@
 <div class="nav-header">
     <a href="{{ auth()->user()->getRoleNames()->first() == 'Customer' ? route('customer.dashboard') : route('home') }}"
         class="brand-logo">
-        <img class="logo-abbr" width="200" src="{{ asset('/assets/images/logo.png') }}" alt="brand-logo"
+        <img class="logo-abbr" width="200" src="{{ asset('/assets/images/logo.svg') }}" alt="brand-logo"
             style="border-radius: 50px;">
         <div class="brand-title">
             <h2 class="">Life-U</h2>

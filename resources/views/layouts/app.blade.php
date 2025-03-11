@@ -12,10 +12,10 @@
     <meta name="description" content="ARZ SIMRS" />
     <meta property="og:title" content="ARZ SIMRS" />
     <meta property="og:description" content="ARZ SIMRS" />
-    <meta property="og:image" content="{{ asset('/assets/images/logo.png') }}" />
+    <meta property="og:image" content="{{ asset('/assets/images/logo.svg') }}" />
     <meta name="format-detection" content="telephone=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="shortcut icon" type="image/png" href="{{ asset('/assets/images/logo.png') }}" />
+    <link rel="shortcut icon" type="image/png" href="{{ asset('/assets/images/logo.svg') }}" />
     <link href="{{ asset('/plugins/vendor/jquery-nice-select/css/nice-select.css') }}" rel="stylesheet">
     <link href="{{ asset('/plugins/vendor/lightgallery/css/lightgallery.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/plugins/css/style.css') }}" rel="stylesheet">
