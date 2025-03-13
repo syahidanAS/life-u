@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta property="og:image" content="{{ asset('/assets/images/logo.svg') }}" />
     <title>Life-U || Login</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
@@ -15,6 +16,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            background-color: #5b9c60;
         }
 
         .card {
@@ -42,10 +44,21 @@
         .form-control {
             border-radius: 10px;
         }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
     </style>
+    <script src="{{ asset('plugins/particlejs/particles.min.js') }}"></script>
 </head>
 
 <body>
+    <div id="particles-js"></div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-5">
@@ -58,7 +71,7 @@
                         <form id="loginForm">
                             <div class="mb-3">
                                 <label for="email" class="form-label">Alamat Email</label>
-                                <input type="email" class="form-control" id="email" placeholder="idan@arz.com"
+                                <input type="email" class="form-control" id="email" placeholder="johndoe@gmail.com"
                                     name="email" required>
                             </div>
                             <div class="mb-3">
@@ -113,6 +126,17 @@
                     }
                 });
             });
+        });
+    </script>
+    <script>
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 40 },
+                shape: { type: "circle" },
+                opacity: { value: 0.5 },
+                size: { value: 3 },
+                move: { speed: 4 }
+            }
         });
     </script>
 </body>

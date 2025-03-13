@@ -9,9 +9,9 @@
     <meta name="author" content="" />
     <meta name="robots" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="ARZ SIMRS" />
-    <meta property="og:title" content="ARZ SIMRS" />
-    <meta property="og:description" content="ARZ SIMRS" />
+    <meta name="description" content="Life-u" />
+    <meta property="og:title" content="Life-u" />
+    <meta property="og:description" content="Life-u" />
     <meta property="og:image" content="{{ asset('/assets/images/logo.svg') }}" />
     <meta name="format-detection" content="telephone=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
