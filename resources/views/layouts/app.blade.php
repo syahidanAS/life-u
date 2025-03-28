@@ -39,6 +39,14 @@
             text-align: center;
             /* Mengatur teks di tengah tombol */
         }
+
+        .floating-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1050;
+            /* Pastikan tombol berada di atas konten lain */
+        }
     </style>
 </head>
 
@@ -47,6 +55,9 @@
         @include('layouts.components.navbar')
         @yield('content')
         @include('layouts.components.sidebar')
+        <a class="btn btn-lg floating-btn" href="{{ route('customer.dashboard') }}" style="background-color: #4d4c4c; color: white; border-radius: 10px;">
+            <i class="bi bi-menu-app"></i> Buka Saklar
+        </a>
     </div>
     <script src="{{ asset('/plugins/vendor/global/global.min.js') }}"></script>
     <script src="{{ asset('/plugins/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>

@@ -119,7 +119,7 @@
                         <div class="col-md-4 mb-4">
                             <div class="card shadow-sm">
                                 <div class="card-body text-center">
-                                    <h5 class="card-title">Lamp ${index}</h5>
+                                    <h5 class="card-title">Lampu ${index}</h5>
                                     <p class="card-text">Status: <span id="status-lamp-${index}">${status ? 'ON' : 'OFF'}</span></p>
                                     <label class="switch">
                                         <input type="checkbox" class="toggle-light" id="toggle-lamp-${index}" ${status ? 'checked' : ''} onchange="toggleLight('${index}', this)">
