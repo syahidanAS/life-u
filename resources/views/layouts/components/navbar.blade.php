@@ -22,7 +22,11 @@
                     <div class="dashboard_bar">
                         {{ $title }}
                     </div>
-
+                    <a class="btn btn-sm" href="{{  route('customer.dashboard') }}"
+                        style="border-radius: 10px; background-color: #5d5c5c; margin-left: 10px; color: #fff;">
+                        <i class="bi bi-menu-app"></i>
+                        Buka Saklar
+                    </a>
                 </div>
                 <ul class="navbar-nav header-right">
                     <li class="nav-item dropdown header-profile">
