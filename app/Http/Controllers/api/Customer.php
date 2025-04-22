@@ -38,7 +38,7 @@ class Customer extends Controller
     {
         try {
             $client = new Client();
-            $response = $client->request('GET', env('BLYNK_SERVER') . 'getAll?token=' . $this->token);
+            $response = $client->request('GET', env('BLYNK_SERVER', 'https://blynk.cloud/external/api/') . 'getAll?token=' . $this->token);
             $datas = json_decode($response->getBody(), true);
             if ($response->getStatusCode() != 200) {
                 return response()->json([
@@ -69,7 +69,7 @@ class Customer extends Controller
                 'timeout' => 10,
                 'connect_timeout' => 5
             ]);
-            $response = $client->request('GET', env('BLYNK_SERVER') . 'getAll?token=' . $this->token);
+            $response = $client->request('GET', env('BLYNK_SERVER', 'https://blynk.cloud/external/api/') . 'getAll?token=' . $this->token);
 
             $data = json_decode($response->getBody(), true);
 
@@ -80,7 +80,7 @@ class Customer extends Controller
                 ], 404);
             }
 
-            $url = env('BLYNK_SERVER') . 'update?token=' . $this->token . '&' . urlencode($pin) . '=' . urlencode($value);
+            $url = env('BLYNK_SERVER', 'https://blynk.cloud/external/api/') . 'update?token=' . $this->token . '&' . urlencode($pin) . '=' . urlencode($value);
             $response = $client->request('GET', $url);
             if ($response->getStatusCode() != 200) {
                 return response()->json([

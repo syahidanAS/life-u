@@ -69,7 +69,7 @@ class CustomerDashboard extends Controller
             $client = new Client();
 
             // Menyusun URL dengan benar
-            $url = env('BLYNK_SERVER') . 'update?token=' . $token . '&' . urlencode($pin) . '=' . urlencode($value);
+            $url = env('BLYNK_SERVER', 'https://blynk.cloud/external/api/') . 'update?token=' . $token . '&' . urlencode($pin) . '=' . urlencode($value);
 
             // Melakukan permintaan GET ke server Blynk dan menunggu respons
             $response = $client->request('GET', $url);
@@ -115,7 +115,7 @@ class CustomerDashboard extends Controller
                 ], 400);
             }
             $client = new Client();
-            $url = env('BLYNK_SERVER') . 'isHardwareConnected?token=' . $token;
+            $url = env('BLYNK_SERVER', 'https://blynk.cloud/external/api/') . 'isHardwareConnected?token=' . $token;
             $response = $client->request('GET', $url);
             $datas = json_decode($response->getBody(), true);
             if ($response->getStatusCode() != 200) {
