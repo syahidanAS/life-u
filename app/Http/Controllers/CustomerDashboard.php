@@ -28,7 +28,7 @@ class CustomerDashboard extends Controller
             }
 
             $client = new Client();
-            $response = $client->request('GET', env('BLYNK_SERVER') . 'getAll?token=' . $token);
+            $response = $client->request('GET', env('BLYNK_SERVER', 'https://blynk.cloud/external/api/') . 'getAll?token=' . $token);
             $datas = json_decode($response->getBody(), true);
 
             if ($response->getStatusCode() != 200) {
