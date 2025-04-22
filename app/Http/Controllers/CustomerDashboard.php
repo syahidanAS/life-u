@@ -46,6 +46,7 @@ class CustomerDashboard extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Terjadi kesalahan saat fetching data, silahkan hubungi administrator!',
+                'error' => $err->getMessage()
             ], 500);
         }
     }
