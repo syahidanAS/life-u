@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\HashidHelper;
 use App\Helpers\Main;
 use App\Http\Requests\StoreDeviceRequest;
 use App\Models\Device;
+use App\Models\User;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 class DeviceController extends Controller
@@ -118,6 +124,49 @@ class DeviceController extends Controller
                 'status' => 'error',
                 'message' => 'Gagal menambahkan data karena terjadi kesalahan!',
                 'error' => $err->getMessage()
+            ], 500);
+        }
+    }
+
+    public function controlApi(Request $request)
+    {
+        try {
+            $request->validate([
+                'pin'   => 'required|string',
+                'value' => 'required|boolean',
+                'user_id' => 'required|string',
+            ]);
+            $userId = HashidHelper::decrypt($request->user_id);
+            $device = Device::where('user_id', $userId)->first();
+
+            $pin   = $request->pin;
+            $value = $request->value ? 1 : 0;
+
+            $client = new Client();
+            $url = rtrim(env('BLYNK_SERVER', 'https://blynk.cloud/external/api/'), '/') .
+                "/update?token={$device->token}&{$pin}={$value}";
+
+            $response = $client->get($url);
+
+            if ($response->getStatusCode() !== 200) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Gagal mengontrol device',
+                    'error_code' => $response->getStatusCode(),
+                ], 500);
+            }
+
+            return response()->json([
+                'status'  => true,
+                'message' => $value
+                    ? 'Berhasil menyalakan lampu'
+                    : 'Berhasil mematikan lampu',
+            ]);
+        } catch (\Throwable $err) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Terjadi kesalahan sistem',
+                'error' => $err->getMessage(),
             ], 500);
         }
     }
