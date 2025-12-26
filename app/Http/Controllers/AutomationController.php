@@ -33,7 +33,7 @@ class AutomationController extends Controller
             'name' => 'required|string|max:255',
             'time' => 'required',
             'pin' => 'required|string|max:10',
-            'is_repeat' => 'nullable|boolean',
+            'state' => 'required|in:on,off',
         ]);
 
         $device = Device::where('user_id', Auth::id())->first();
@@ -47,6 +47,7 @@ class AutomationController extends Controller
             'pin' => $request->pin,
             'is_repeat' => $request->has('is_repeat') ? $request->is_repeat : true,
             'device_id' => $device->id,
+            'state' => $request->state,
         ]);
 
         return redirect()->route('automation.index')->with('success', 'Automation berhasil ditambahkan.');
@@ -63,7 +64,7 @@ class AutomationController extends Controller
             'name' => 'required|string|max:255',
             'time' => 'required',
             'pin' => 'required|string|max:10',
-            'is_repeat' => 'nullable|boolean',
+            'state' => 'required|in:on,off',
         ]);
 
         $automation->update([
@@ -71,6 +72,7 @@ class AutomationController extends Controller
             'time' => $request->time,
             'pin' => $request->pin,
             'is_repeat' => $request->has('is_repeat') ? $request->is_repeat : true,
+            'state' => $request->state,
         ]);
 
         return redirect()->route('automation.index')->with('success', 'Automation berhasil diperbarui.');
@@ -80,61 +82,5 @@ class AutomationController extends Controller
     {
         $automation->delete();
         return redirect()->route('automation.index')->with('success', 'Automation berhasil dihapus.');
-    }
-
-    public function checker()
-    {
-        try {
-            $now = Carbon::now('Asia/Jakarta')->format('H:i'); // timezone sesuai lokal
-            $automations = Automation::where('time', $now)->get();
-
-            if ($automations->isEmpty()) {
-                return response()->json(['message' => 'Tidak ada automation saat ini.']);
-            }
-
-            $client = new Client();
-            $results = [];
-
-            foreach ($automations as $automation) {
-                $device = Device::find($automation->device_id);
-
-                if (!$device) {
-                    $results[] = [
-                        'automation_id' => $automation->id,
-                        'status' => 'failed',
-                        'error' => 'Device tidak ditemukan'
-                    ];
-                    continue;
-                }
-
-                $stateValue = ($automation->state ?? 'off') === 'on' ? 1 : 0;
-
-                $query = http_build_query([
-                    'token' => $device->token,
-                    $automation->pin => $stateValue
-                ]);
-
-                $url = rtrim(env('BLYNK_SERVER', 'https://blynk.cloud/external/api/'), '/') . "/update?" . $query;
-
-                try {
-                    $response = $client->get($url);
-                    $results[] = [
-                        'automation_id' => $automation->id,
-                        'status' => 'success',
-                        'http_code' => $response->getStatusCode()
-                    ];
-                } catch (\Exception $e) {
-                    $results[] = [
-                        'automation_id' => $automation->id,
-                        'status' => 'failed',
-                        'error' => $e->getMessage()
-                    ];
-                }
-            }
-
-            return response()->json($results);
-        } catch (\Exception $e) {
-            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
-        }
     }
 }

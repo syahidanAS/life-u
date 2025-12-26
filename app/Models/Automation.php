@@ -14,7 +14,6 @@ class Automation extends Model
         'time',
         'pin',
         'state',
-        'is_repeat',
         'device_id',
     ];
 

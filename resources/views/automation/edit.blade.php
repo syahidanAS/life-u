@@ -36,9 +36,12 @@
                     <input type="text" name="pin" class="form-control" value="{{ old('pin', $automation->pin) }}" required>
                 </div>
 
-                <div class="mb-3 form-check">
-                    <input type="checkbox" name="is_repeat" class="form-check-input" id="is_repeat" {{ old('is_repeat', $automation->is_repeat) ? 'checked' : '' }}>
-                    <label class="form-check-label" for="is_repeat">Ulangi</label>
+                <div class="mb-3">
+                    <label for="state">Aksi</label>
+                    <select name="state" class="form-control" required>
+                        <option value="on" {{ old('state', $automation->state) == 'on' ? 'selected' : '' }}>Nyalakan</option>
+                        <option value="off" {{ old('state', $automation->state) == 'off' ? 'selected' : '' }}>Matikan</option>
+                    </select>
                 </div>
 
                 <button type="submit" class="btn btn-success">Update</button>
