@@ -149,25 +149,12 @@ class DeviceController extends Controller
             $response = $client->get($url);
 
             if ($response->getStatusCode() !== 200) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Gagal mengontrol device',
-                    'error_code' => $response->getStatusCode(),
-                ], 500);
+                return false;
             }
 
-            return response()->json([
-                'status'  => true,
-                'message' => $value
-                    ? 'Berhasil menyalakan lampu'
-                    : 'Berhasil mematikan lampu',
-            ]);
+            return true;
         } catch (\Throwable $err) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Terjadi kesalahan sistem',
-                'error' => $err->getMessage(),
-            ], 500);
+            return false;
         }
     }
 }
