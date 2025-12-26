@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AutomationController;
 use App\Http\Controllers\CustomerDashboard;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\HomeController;
@@ -30,6 +31,11 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 Route::middleware(['auth', 'check.session'])->group(function () {
+    Route::resource('automation', AutomationController::class);
+
+    Route::get('/automation-checker', [AutomationController::class, 'checker'])->name('automation-checker');
+
+
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     Route::get('get-users', [UserController::class, 'getUsers'])->name('get-users');
