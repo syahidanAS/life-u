@@ -27,5 +27,5 @@ Route::prefix('/v1')->name('v1.')->group(function () {
     Route::get('get-pins', [Customer::class, 'index'])->name('get-pins')->middleware(JwtMiddleware::class);
     Route::post('update-pins', [Customer::class, 'updatePins'])->name('update-pins')->middleware(JwtMiddleware::class);
 
-    Route::post('control-api', [DeviceController::class, 'controlApi'])->name('control-api');
+    Route::get('control-api', [DeviceController::class, 'controlApi'])->name('control-api');
 });
