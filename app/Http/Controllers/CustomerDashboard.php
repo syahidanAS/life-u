@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Device;
+use App\Models\Mapping;
 use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -18,29 +19,61 @@ class CustomerDashboard extends Controller
     public function getPins()
     {
         $user = Auth::user()->load(['device']);
-        $token = Device::where('user_id', $user->id)->first()->token;
+        $device = Device::where('user_id', $user->id)->first();
+
         try {
-            // Cek apakah user memiliki device dan token
-            if (!$token) {
+            // Cek device + token
+            if (!$device || !$device->token) {
                 return response()->json([
                     'error' => 'Device or token not found',
                 ], 400);
             }
 
-            $client = new Client();
-            $response = $client->request('GET', env('BLYNK_SERVER', 'https://blynk.cloud/external/api/') . 'getAll?token=' . $token);
-            $datas = json_decode($response->getBody(), true);
+            // Request ke Blynk API
+            $client = new \GuzzleHttp\Client();
+
+            $response = $client->request(
+                'GET',
+                env('BLYNK_SERVER', 'https://blynk.cloud/external/api/') . 'getAll?token=' . $device->token
+            );
 
             if ($response->getStatusCode() != 200) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Terjadi kesalahan saat fetching data, silahkan hubungi administrator!',
+                    'message' => 'Terjadi kesalahan saat fetching data',
                     'error_code' => $response->getStatusCode()
                 ], 500);
             }
+
+            $datas = json_decode($response->getBody(), true);
+
+            /**
+             * Ambil mapping pin => alias
+             * contoh: ['v0' => 'Lampu Depan']
+             */
+            $mapping = Mapping::where('device_id', $device->id)->get();
+            $pinMap = $mapping->pluck('alias', 'pin');
+
+            $aliasToPin = $mapping->pluck('pin', 'alias');
+
+            /**
+             * Transform hasil Blynk:
+             * v0 => Lampu Depan
+             */
+            $result = [];
+
+            foreach ($datas as $pin => $value) {
+
+                $label = $pinMap[$pin] ?? $pin;
+
+                $result[$label] = [
+                    'value' => $value,
+                    'pin' => $pin
+                ];
+            }
             return response()->json([
                 'status' => true,
-                'data' => $datas
+                'data' => $result
             ]);
         } catch (\Throwable $err) {
             return response()->json([

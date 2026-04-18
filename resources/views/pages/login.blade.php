@@ -1,103 +1,128 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta property="og:image" content="{{ asset('/assets/images/logo.svg') }}" />
-    <title>Life-U || Login</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+    <title>SmartHome || Login</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
     <style>
         body {
             height: 100vh;
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #5b9c60;
+            background: linear-gradient(135deg, #eef2ff, #f8fafc);
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 420px;
         }
 
         .card {
-            border-radius: 15px;
-            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+            background: #ffffff;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
 
         .card-header {
-            background: #ffffff;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .btn-primary {
-            background: #4CAF50;
+            background: transparent;
             border: none;
+            text-align: center;
+            padding: 30px 20px 10px;
         }
 
-        .btn-primary:hover {
-            background: #388E3C;
+        .brand {
+            font-size: 28px;
+            font-weight: bold;
+            color: #3b82f6;
         }
 
         .form-control {
-            border-radius: 10px;
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
         }
 
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
+        .form-control:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+        .text-muted {
+            color: #64748b !important;
         }
     </style>
-    <script src="{{ asset('plugins/particlejs/particles.min.js') }}"></script>
 </head>
 
 <body>
-    <div id="particles-js"></div>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-5">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="fw-bold text-dark">Life-U</h3>
-                        <p class="text-muted">Silakan login untuk melanjutkan</p>
+
+    <div class="login-container">
+        <div class="card">
+            <div class="card-header">
+                <div class="brand">SmartHome</div>
+                <p class="text-muted mt-2">Masuk untuk mengontrol rumah Anda</p>
+            </div>
+
+            <div class="card-body p-4">
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email" placeholder="email@example.com" required>
                     </div>
-                    <div class="card-body p-4">
-                        <form id="loginForm">
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Alamat Email</label>
-                                <input type="email" class="form-control" id="email" placeholder="johndoe@gmail.com"
-                                    name="email" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" placeholder="password"
-                                    name="password" required>
-                            </div>
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Login</button>
-                            </div>
-                        </form>
+
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password" placeholder="••••••••" required>
                     </div>
-                </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt me-1"></i> Login
+                        </button>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <small class="text-muted">© {{ date('Y') }} SmartHome System</small>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         $(document).ready(function () {
             $('#loginForm').on('submit', function (e) {
                 e.preventDefault();
-                $('#email, #password').removeClass('is-invalid');
+
                 $.ajaxSetup({
                     headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
                 });
+
                 $.ajax({
                     type: 'POST',
                     url: '{{route("login-action")}}',
@@ -109,36 +134,23 @@
                         Swal.fire({
                             icon: "success",
                             text: response.message,
-                            confirmButtonText: 'Lanjutkan',
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location.replace(response.return_url);
-                            }
+                            confirmButtonText: 'Masuk'
+                        }).then(() => {
+                            window.location.replace(response.return_url);
                         });
                     },
                     error: function (xhr) {
-                        $('#email, #password').addClass('is-invalid');
                         Swal.fire({
                             icon: "error",
                             text: xhr.responseJSON.message,
-                            confirmButtonText: 'Coba Lagi',
+                            confirmButtonText: 'Coba Lagi'
                         });
                     }
                 });
             });
         });
     </script>
-    <script>
-        particlesJS("particles-js", {
-            particles: {
-                number: { value: 40 },
-                shape: { type: "circle" },
-                opacity: { value: 0.5 },
-                size: { value: 3 },
-                move: { speed: 4 }
-            }
-        });
-    </script>
+
 </body>
 
 </html>
