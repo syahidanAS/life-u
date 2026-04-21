@@ -35,7 +35,7 @@ class AutomationChecker extends Command
 
         if ($automations->isEmpty()) {
             $this->info("Tidak ada automation saat ini ({$now}).");
-            $this->sendLog("No automations to run", "INFO", "No automations scheduled at {$now}");
+            // $this->sendLog("No automations to run", "INFO", "No automations scheduled at {$now}");
             return 0;
         }
 
@@ -46,11 +46,11 @@ class AutomationChecker extends Command
 
             if (!$device) {
                 $this->error("Automation {$automation->id} gagal: Device tidak ditemukan");
-                $this->sendLog(
-                    "Device not found for automation {$automation->id}",
-                    "CRITICAL",
-                    "Automation ID {$automation->id} gagal karena device tidak ditemukan"
-                );
+                // $this->sendLog(
+                //     "Device not found for automation {$automation->id}",
+                //     "CRITICAL",
+                //     "Automation ID {$automation->id} gagal karena device tidak ditemukan"
+                // );
                 continue;
             }
 
@@ -64,19 +64,19 @@ class AutomationChecker extends Command
                 $response = $this->client->get($url);
                 $this->info("Automation {$automation->id} berhasil, HTTP code: {$response->getStatusCode()}");
 
-                $this->sendLog(
-                    "Turn {$state} automation",
-                    "WARNING",
-                    "Automation ID {$automation->id} set pin {$automation->pin} to {$state}"
-                );
+                // $this->sendLog(
+                //     "Turn {$state} automation",
+                //     "WARNING",
+                //     "Automation ID {$automation->id} set pin {$automation->pin} to {$state}"
+                // );
             } catch (\Exception $e) {
                 $this->error("Automation {$automation->id} gagal: {$e->getMessage()}");
-                $this->sendLog(
-                    "Failed to turn {$state} automation",
-                    "CRITICAL",
-                    "Automation ID {$automation->id} gagal set pin {$automation->pin} to {$state}. Error: {$e->getMessage()}",
-                    500
-                );
+                // $this->sendLog(
+                //     "Failed to turn {$state} automation",
+                //     "CRITICAL",
+                //     "Automation ID {$automation->id} gagal set pin {$automation->pin} to {$state}. Error: {$e->getMessage()}",
+                //     500
+                // );
             }
         }
 
